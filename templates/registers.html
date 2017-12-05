@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <style>
+
+        body {
+        {#            background: url("/static/background.jpg")  ;#} background: #cccccc;
+
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <form action="/ajax_register/" class="form-horizontal col-md-offset-4 col-md-4" novalidate>
+            {% csrf_token %}
+            <p>{{ forms.username.label }}{{ forms.username }}{{ forms.username.errors.0 }}</p>
+            <p>{{ forms.password.label }}{{ forms.password }}{{ forms.password.errors.0 }}</p>
+            <p>{{ forms.repaet_password.label }}{{ forms.repaet_password }}{{ forms.password.errors.0 }}</p>
+            <p>{{ forms.nickname.label }}{{ forms.nickname }}{{ forms.nickname.errors.0 }}</p>
+            <p><img src="/static/default.jpg" alt="" height="60" width="60" id="avatar_img"></p>
+            <p>{{ forms.avatar.label }}{{ forms.avatar }}{{ forms.avatar.errors.0 }}</p>
+
+            <p>{{ forms.tel.label }}{{ forms.tel }}{{ forms.tel.errors.0 }}</p>
+            <p>{{ forms.email.label }}{{ forms.email }}{{ forms.email.errors.0 }}</p>
+            <p><input type="button" value="提交" class="btn btn-primary"></p>
+
+
+        </form>
+    </div>
+</div>
+<script src="/static/jquery-3.2.1.min.js"></script>
+<script src="/static/jquery-cookie/jquery.cookie.js"></script>
+<script>
+    $('#avatar_file').change(function () {
+       var ele_file=$(this)[0].file[0];
+        var reader=new FileReader();
+        reader.readAsDataURL(ele_file);
+        reader.onload=function () {
+            $('#avatar_img')[0].src=this.result
+        }
+    });
+
+
+    $('input[type=button]').click(function () {
+        $.post({
+            url:'/register/',
+            data:$('form').serialize(),
+            contenType:false,
+            processData:false,
+            headers:{'X-CSRFToken':$.cookie('csrftoken')},
+            success:function (data) {
+                var data = JSON.parse(data);
+                if (data.user){
+                    location.href('/code/')
+                }else {
+                    $('.errors').remove();
+                    $('.has-error').removeClass('has-error');
+                    $.each(data.errorsList,function (i,j) {
+
+                        $span=$('<span>');
+                        $span.addClass('pull-right').css('color','red').addClass('errors');
+                        $span.html(j[0]);
+
+                        $('#id_'+i).after($span).parent().addClass('has-error');
+                        console.log(i,j);
+                        if (i=='__all__'){
+                            $('#id_repaet_password').after($span).parent().addClass('has-error');
+                        }
+                    })
+                }
+            }
+            
+        })
+    })
+</script>
+
+
+
+
+<script>
+{#    $('.data').mouseleave(function () {#}
+{#        var formData = this.data;#}
+{#        $.post({#}
+{#            url: '/register/',#}
+{#            headers: {"X-CSRFToken": $.cookie('csrftoken')},#}
+{#            data: formData,#}
+{#            contentType: false,#}
+{#            processData: false,#}
+{#            success: function (data) {#}
+{#                var data = JSON.parse(data);#}
+{#                console.log(data)#}
+{#            }#}
+{#        })#}
+{##}
+{#    })#}
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <script src="/static/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+{{ request.user.nickname }}
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+    <div>{{ testform.title }}</div>
+<div>{{ testform.content }}</div>
+<div>categorys:{{ testform.categorys }}</div>
+<div>tags:{{ testform.tags }}</div>
+<div>sitearticlecategorys:{{ testform.sitearticlecategorys }}</div>
+
+    <div><input type="submit" value="提交"></div>
+
+</form>
+</body>
+
+</html>

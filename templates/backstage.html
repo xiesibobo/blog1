@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041) -->
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+    <script src="/static/jquery-3.2.1.min.js"></script>
+    <link href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">#maxthon-1eec22d4-0232-4212-8283-6f2ac8f967-iframe {
+        display: block !important;
+        position: absolute !important;
+        visibility: visible !important;
+        z-index: 2147483647 !important;
+        border-style: none !important;
+        opacity: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: 0 0 5px rgba(0, 0, 0, .3) !important;
+        border: 1px solid #b3b3b3 !important
+    }</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog_home/">博客园</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/blog/{{ request.user.nickname }}">我的博客</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        //左侧菜单
+        <div class="col-sm-3 col-md-2 sidebar">
+            <div>
+                <div><span>操作</span></div>
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="/blog/add">添加新随笔>></a>
+                    </li>
+                    <li><a href="#">草稿箱</a></li>
+                    <li><a href="#">博客签名</a></li>
+                    <li><a href="#">Export</a></li>
+                </ul>
+            </div>
+            <div>
+                <div><span>分类</span></div>
+                <ul class="nav nav-sidebar">
+                  {% for category in category_list %}
+                    <li><a href="/blog/{{ request.user.nickname }}/cation/{{ category.title }}">{{ category.title }}</a></li>
+                  {% endfor %}
+
+                  
+                </ul>
+            </div>
+                    <div>
+                <div><span>标签</span></div>
+                <ul class="nav nav-sidebar">
+               {% for tag in tag_list %}
+                 <li><a href="/blog/{{ request.user.nickname }}/tag/{{ tag.title }}">{{ tag.title }}</a></li>
+               {% endfor %}
+
+
+
+                </ul>
+            </div>
+
+        </div>
+
+        //正面表格
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+            {% block edit %}
+            <h4 class="sub-header">编辑列表</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>评论数</th>
+                        <th>阅读数</th>
+                        <th>操作</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in article_list %}
+                        <tr class=>
+                            <td><a href="/blog/{{ request.user.nickname }}/articles/{{ article.nid }}" target="_blank">{{ article.title }}</a></td>
+                            <td>{{ article.comment_count }}</td>
+                            <td>{{ article.read_count }}</td>
+{#                            <td><a href="/blog/edit/{{ article.nid }}">编辑</a></td>#}
+                            <td><a href="/blog/edit/{{ article.nid }}"><button class="btn btn-info">编辑</button></a></td>
+                            <td><button class="btn btn-danger del" nid="{{ article.nid }}">删除</button></td>
+{#                            <td><a href="/blog/del/{{ article.nid }}">删除</a></td>#}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <script>
+                    $('.del').click(function () {
+                        console.log($(this).attr('nid'));
+                        var art=$(this).attr('nid');
+                        $.ajax({
+                            async:false,
+                            url:'/blog/del/'+art,
+                            type:'get',
+                            success:function (data) {
+                                var data=JSON.parse(data);
+                                if (data['flag']){
+                                    console.log(this)
+                                }else {
+                                    art=null;
+                                    alert(data['error'])
+                                }
+                            }
+
+                        });
+                        if (art){
+                            $(this).parent().parent().remove()
+                        }
+
+                    })
+
+
+                </script>
+            </div>
+            {% endblock edit %}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

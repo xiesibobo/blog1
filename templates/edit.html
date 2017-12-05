@@ -1,0 +1,57 @@
+{% extends 'backstage.html' %}
+
+
+
+
+
+{% block edit %}
+    {% csrf_token %}
+    <form action="/blog/edit/{{ nid }}" method="post" novalidate>
+    {% csrf_token %}
+        <div><strong>标题：</strong>
+{#            <input type="text" name="title" class="form-control">#}
+            {{ article_form.title }}
+        </div>
+
+        <div>
+            <div><strong>内容</strong></div>
+            {{ article_form.content }}
+{#            <textarea name="content" id="editor_id" class="form-control">#}
+{##}
+{#            </textarea>#}
+        </div>
+        <div><input type="submit" value="提交" class="btn btn-info pull-right" style="margin-top: 25px" id="text_sub"></div>
+    </form>
+        <script charset="utf-8" src="/static/kindeditor/kindeditor-all.js"></script>
+        <script>
+                KindEditor.ready(function(K) {
+                        window.editor = K.create('#editor_id',{
+                            width:'100%',
+                            height:'550px',
+                            resizeType:0,
+                            uploadJson:'/uploadFile/',
+                            extraFileUploadParams:{
+                                csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val(),
+                            }
+                        });
+                });
+{#                $('#text_sub').click(function () {#}
+{#                    $.ajax({#}
+{#                        url:'/blog/add',#}
+{#                        type: "post",#}
+{#                        data:$('#editor_id').val(),#}
+{#                        csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val(),#}
+{#                        success:function (data) {#}
+{#                            console.log(data)#}
+{#                        }#}
+{##}
+{#                    })#}
+{#                })#}
+        </script>
+
+
+
+
+
+
+{% endblock edit %}

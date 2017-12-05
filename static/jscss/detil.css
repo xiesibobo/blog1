@@ -1,0 +1,22 @@
+
+.buryit{
+    margin-left: 20px;
+    width: 46px;
+    height: 52px;
+    background: url(downdown.gif) no-repeat;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 2px;
+    padding-top: 5px;
+}
+
+.diggit {
+
+    width: 46px;
+    height: 52px;
+    background: url(upup.gif) no-repeat;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 2px;
+    padding-top: 5px;
+}

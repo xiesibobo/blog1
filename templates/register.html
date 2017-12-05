@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <style>
+        .imgs {
+
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            opacity: 0;
+            left: 20px;
+        }
+
+        .imgt {
+            position: relative;
+            bottom: 63px;
+            left: 44px;
+        }
+
+        .imge {
+            position: relative;
+            bottom: 20px;
+            left: 45px;
+
+        }
+
+        .c01 {
+            position: relative;
+            height: 45px;
+
+        }
+    </style>
+<script src="/static/jquery-3.2.1.min.js"></script>
+<script src="/static/jquery-cookie/jquery.cookie.js"></script>
+</head>
+<body>
+<form>
+    <div>用户名<input type="text" name="username"></div>
+    <div>密码<input type="password" name="password"></div>
+    <div>重复输入密码<input type="password" name="password2"></div>
+    <div>昵称<input type="text" name="nickname"></div>
+
+    <div class="c01">头像
+        <div class="imge"><img src="/static/default.jpg" width="40" height="40"></div>
+        <div class="imgt"><input type="file" name="avatar" class="imgs"></div>
+    </div>
+    <div>电话号码<input type="tel" name="tel"></div>
+    <div>邮箱<input type="email" name="email"></div>
+{#    <div>邮箱<input type="email" name="email"></div>#}
+</form>
+</body>
+
+</html>

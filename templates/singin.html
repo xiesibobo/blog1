@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color: #f7f7f7;
+        }
+    </style>
+    <script src="/static/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+
+
+<form>
+    {% csrf_token %}
+    <input type="text" placeholder="用户名">
+    <input type="password" placeholder="密码">
+    <input type="button" value="提交">
+</form>
+<script>
+    $("[type='button']").click(function () {
+        $.post({
+            url:'/singin/',
+            data:{
+                name:$("[type='text']").val(),
+                password:$("[type='password']").val(),
+                "csrfmiddlewaretoken":$("[name='csrfmiddlewaretoken']").val()
+
+            }
+        })
+    })
+</script>
+</body>
+</html>
